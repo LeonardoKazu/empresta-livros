@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/livro")
 public class LivroController {
@@ -19,5 +21,25 @@ public class LivroController {
     public ResponseEntity<Livro> salvar(@RequestBody LivroDTO livroDTO){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(livroService.salvar(livroDTO));
+    }
+    @GetMapping
+    public ResponseEntity<List<Livro>> lerTodos(){
+        return ResponseEntity.status(HttpStatus.OK).body(livroService.lerTodos());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Livro> lerPorId(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(livroService.lerPorId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Livro> atualizarPorId(@RequestBody LivroDTO livroDTO, @PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(livroService.atualizar(livroDTO, id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPorId(@PathVariable Long id){
+        livroService.deletarPorId(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
