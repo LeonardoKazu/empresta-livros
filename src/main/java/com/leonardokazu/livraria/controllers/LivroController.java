@@ -1,6 +1,6 @@
 package com.leonardokazu.livraria.controllers;
 
-import com.leonardokazu.livraria.entities.DTOS.LivroDTO;
+import com.leonardokazu.livraria.entities.DTOS.LivroDTORequest;
 import com.leonardokazu.livraria.entities.Livro;
 import com.leonardokazu.livraria.services.LivroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,9 @@ public class LivroController {
     private LivroService livroService;
 
     @PostMapping()
-    public ResponseEntity<Livro> salvar(@RequestBody LivroDTO livroDTO){
+    public ResponseEntity<Livro> salvar(@RequestBody LivroDTORequest livroDTORequest){
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(livroService.salvar(livroDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(livroService.salvar(livroDTORequest));
     }
     @GetMapping
     public ResponseEntity<List<Livro>> lerTodos(){
@@ -33,8 +33,8 @@ public class LivroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Livro> atualizarPorId(@RequestBody LivroDTO livroDTO, @PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(livroService.atualizar(livroDTO, id));
+    public ResponseEntity<Livro> atualizarPorId(@RequestBody LivroDTORequest livroDTORequest, @PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(livroService.atualizar(livroDTORequest, id));
     }
 
     @DeleteMapping("/{id}")

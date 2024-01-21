@@ -1,11 +1,13 @@
 package com.leonardokazu.livraria.services;
 
-import com.leonardokazu.livraria.entities.DTOS.LeitorDTO;
+import com.leonardokazu.livraria.entities.DTOS.LeitorDTORequest;
+import com.leonardokazu.livraria.entities.DTOS.LeitorDTOResponse;
 import com.leonardokazu.livraria.entities.Leitor;
 import com.leonardokazu.livraria.repositories.LeitorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,32 +16,41 @@ public class LeitorService {
     @Autowired
     private LeitorRepository leitorRepository;
 
-    public Leitor salvar(LeitorDTO leitorDTO){
+    public LeitorDTOResponse salvar(LeitorDTORequest leitorDTORequest){
         Leitor leitor = new Leitor();
 
-        leitor.setNome(leitorDTO.nome());
-        leitor.setEmail(leitorDTO.email());
-        leitor.setCpf(leitorDTO.cpf());
 
-        return leitorRepository.save(leitor);
+        leitor.setNome(leitorDTORequest.nome());
+        leitor.setEmail(leitorDTORequest.email());
+
+        leitorRepository.save(leitor);
+        LeitorDTOResponse response = new LeitorDTOResponse(leitor.getId(), leitor.getNome(), leitor.getEmail());
+        return response;
     }
 
-    public List<Leitor> lerTodos(){
-        return leitorRepository.findAll();
+    public List<LeitorDTOResponse> lerTodos(){
+        List<Leitor> leitores = leitorRepository.findAll();
+        List<LeitorDTOResponse> response = new ArrayList<>();
+        for (Leitor x : leitores){
+            response.add(new LeitorDTOResponse(x.getId(), x.getNome(), x.getEmail()));
+        }
+        return response;
     }
 
-    public Leitor lerPorId(Long id){
-        return leitorRepository.findById(id).get();
+    public LeitorDTOResponse lerPorId(Long id){
+        var leitor = leitorRepository.findById(id).get();
+        return new LeitorDTOResponse(leitor.getId(), leitor.getNome(), leitor.getEmail());
     }
 
-    public Leitor atualizarPorId(LeitorDTO leitorDTO, Long id){
-        Leitor leitor = lerPorId(id);
+    public LeitorDTOResponse atualizarPorId(LeitorDTORequest leitorDTORequest, Long id){
 
-        leitor.setNome(leitorDTO.nome());
-        leitor.setEmail(leitorDTO.email());
-        leitor.setCpf(leitorDTO.cpf());
+        Leitor leitor = leitorRepository.findById(id).get();
 
-        return leitorRepository.save(leitor);
+        leitor.setNome(leitorDTORequest.nome());
+        leitor.setEmail(leitorDTORequest.email());
+        leitorRepository.save(leitor);
+
+        return new LeitorDTOResponse(leitor.getId(), leitor.getNome(), leitor.getEmail());
     }
     public void deletar(Long id){
         leitorRepository.deleteById(id);

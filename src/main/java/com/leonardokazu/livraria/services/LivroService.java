@@ -1,6 +1,6 @@
 package com.leonardokazu.livraria.services;
 
-import com.leonardokazu.livraria.entities.DTOS.LivroDTO;
+import com.leonardokazu.livraria.entities.DTOS.LivroDTORequest;
 import com.leonardokazu.livraria.entities.Livro;
 import com.leonardokazu.livraria.repositories.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +14,12 @@ public class LivroService {
     @Autowired
     private LivroRepository livroRepository;
 
-    public Livro salvar(LivroDTO livroDTO) {
+    public Livro salvar(LivroDTORequest livroDTORequest) {
         Livro livro = new Livro();
 
-        livro.setNome(livroDTO.nome());
-        livro.setAutor(livroDTO.autor());
-        livro.setTotalPaginas(livroDTO.totalPaginas());
+        livro.setNome(livroDTORequest.nome());
+        livro.setAutor(livroDTORequest.autor());
+        livro.setTotalPaginas(livroDTORequest.totalPaginas());
 
         return livroRepository.save(livro);
     }
@@ -32,12 +32,12 @@ public class LivroService {
         return livroRepository.findById(id).get();
     }
 
-    public Livro atualizar(LivroDTO livroDTO, Long id){
+    public Livro atualizar(LivroDTORequest livroDTORequest, Long id){
         Livro livro = livroRepository.findById(id).get();
 
-        livro.setNome(livroDTO.nome());
-        livro.setAutor(livroDTO.autor());
-        livro.setTotalPaginas(livroDTO.totalPaginas());
+        livro.setNome(livroDTORequest.nome());
+        livro.setAutor(livroDTORequest.autor());
+        livro.setTotalPaginas(livroDTORequest.totalPaginas());
 
         return livroRepository.save(livro);
     }

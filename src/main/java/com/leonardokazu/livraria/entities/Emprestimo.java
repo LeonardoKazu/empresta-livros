@@ -28,6 +28,7 @@ public class Emprestimo {
     @OneToOne
     private Livro livro;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "leitor_id")
     private Leitor leitor;
