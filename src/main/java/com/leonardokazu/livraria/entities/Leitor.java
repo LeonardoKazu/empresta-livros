@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,5 +21,6 @@ public class Leitor {
     private String nome;
     private String email;
     private String cpf;
-    private Integer livrosEmprestados;
+
+    //private Set<Emprestimo> emprestimos = new HashSet<>();
 }
