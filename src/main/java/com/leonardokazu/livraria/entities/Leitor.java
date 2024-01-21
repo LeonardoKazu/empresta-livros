@@ -1,13 +1,16 @@
 package com.leonardokazu.livraria.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
+@EqualsAndHashCode(of = "id")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,5 +25,18 @@ public class Leitor {
     private String email;
     private String cpf;
 
-    //private Set<Emprestimo> emprestimos = new HashSet<>();
+    @JsonIgnore
+    @OneToMany
+    private List<Emprestimo> emprestimos = new ArrayList<>();
+
+    public void addEmprestimo(Emprestimo emprestimo){
+        emprestimos.add(emprestimo);
+    }
+    public void devolver(Long id){
+        for (Emprestimo x: emprestimos){
+            if (x.getId() == id){
+                x.devolver();
+            }
+        }
+    }
 }
