@@ -25,11 +25,11 @@ public class Emprestimo {
     private LocalDate dataEmprestada;
     private LocalDate dataDevolucao;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Livro livro;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "leitor_id")
     private Leitor leitor;
 

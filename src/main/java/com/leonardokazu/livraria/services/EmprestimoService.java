@@ -2,7 +2,6 @@ package com.leonardokazu.livraria.services;
 
 import com.leonardokazu.livraria.entities.DTOS.EmprestimoDTORequest;
 import com.leonardokazu.livraria.entities.DTOS.EmprestimoDTOResponse;
-import com.leonardokazu.livraria.entities.DTOS.LeitorDTOResponse;
 import com.leonardokazu.livraria.entities.Emprestimo;
 import com.leonardokazu.livraria.entities.Leitor;
 import com.leonardokazu.livraria.entities.Livro;
@@ -18,7 +17,7 @@ import java.util.List;
 @Service
 public class EmprestimoService {
     @Autowired
-    private EmprestimoRespository emprestimoRespository;
+    private EmprestimoRespository emprestimoRepository;
 
     @Autowired
     private LivroRepository livroRepository;
@@ -27,7 +26,7 @@ public class EmprestimoService {
     private LeitorRepository leitorRepository;
 
     public List<EmprestimoDTOResponse> lerTodos(){
-        List<Emprestimo> emprestimos =  emprestimoRespository.findAll();
+        List<Emprestimo> emprestimos =  emprestimoRepository.findAll();
         List<EmprestimoDTOResponse> responses = new ArrayList<>();
         for (Emprestimo x : emprestimos){
             responses.add(new EmprestimoDTOResponse(x.getId(), x.getLeitor().getNome(), x.getLeitor().getEmail(), x));
@@ -36,7 +35,7 @@ public class EmprestimoService {
     }
 
     public EmprestimoDTOResponse lerPorId(Long id){
-        var emprestimo = emprestimoRespository.findById(id).orElseThrow(() -> new RuntimeException("Emprestimo não foi encontrado"));
+        var emprestimo = emprestimoRepository.findById(id).orElseThrow(() -> new RuntimeException("Emprestimo não foi encontrado"));
         var response = new EmprestimoDTOResponse(emprestimo.getLeitor().getId(), emprestimo.getLeitor().getNome(),
                 emprestimo.getLeitor().getEmail(), emprestimo);
         return response;
@@ -52,20 +51,21 @@ public class EmprestimoService {
         Emprestimo emprestimo = new Emprestimo(livro, leitor);
         leitor.addEmprestimo(emprestimo);
 
-        emprestimoRespository.save(emprestimo);
+        emprestimoRepository.save(emprestimo);
+        livro.setEmprestimoId(emprestimo.getId());
         leitorRepository.save(leitor);
         livroRepository.save(livro);
         return new EmprestimoDTOResponse(leitor.getId(), leitor.getNome(), leitor.getEmail(), emprestimo);
     }
     public void devolver(Long id){
-        Emprestimo emprestimo = emprestimoRespository.findById(id).get();
+        Emprestimo emprestimo = emprestimoRepository.findById(id).get();
 
         Livro livro = livroRepository.findById(emprestimo.getLivro().getId()).get();
         Leitor leitor = leitorRepository.findById(emprestimo.getLeitor().getId()).get();
 
         livro.setDisponivel(true);
-        leitor.devolver(id);
-        emprestimoRespository.deleteById(id);
+        emprestimo.devolver();
+        emprestimoRepository.deleteById(emprestimo.getId());
         livroRepository.save(livro);
         leitorRepository.save(leitor);
     }

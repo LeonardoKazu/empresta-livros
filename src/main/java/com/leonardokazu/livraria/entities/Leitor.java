@@ -31,11 +31,5 @@ public class Leitor {
     public void addEmprestimo(Emprestimo emprestimo){
         emprestimos.add(emprestimo);
     }
-    public void devolver(Long id){
-        for (Emprestimo x: emprestimos){
-            if (x.getId() == id){
-                x.devolver();
-            }
-        }
-    }
+
 }
