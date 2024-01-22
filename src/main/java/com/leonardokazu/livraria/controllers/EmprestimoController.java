@@ -1,7 +1,7 @@
 package com.leonardokazu.livraria.controllers;
 
 import com.leonardokazu.livraria.entities.DTOS.EmprestimoDTORequest;
-import com.leonardokazu.livraria.entities.Emprestimo;
+import com.leonardokazu.livraria.entities.DTOS.EmprestimoDTOResponse;
 import com.leonardokazu.livraria.services.EmprestimoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ public class EmprestimoController {
     private EmprestimoService emprestimoService;
 
     @PostMapping
-    public ResponseEntity<Emprestimo> emprestar(@RequestBody EmprestimoDTORequest emprestimoDTORequest){
+    public ResponseEntity<EmprestimoDTOResponse> emprestar(@RequestBody EmprestimoDTORequest emprestimoDTORequest){
         return ResponseEntity.status(HttpStatus.CREATED).body(emprestimoService.emprestar(emprestimoDTORequest));
     }
     @PutMapping("/{id}")
@@ -28,8 +28,13 @@ public class EmprestimoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Object>> lerTodos(){
+    public ResponseEntity<List<EmprestimoDTOResponse>> lerTodos(){
         return ResponseEntity.status(HttpStatus.OK).body(emprestimoService.lerTodos());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EmprestimoDTOResponse> lerPorId(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(emprestimoService.lerPorId(id));
     }
 
 }

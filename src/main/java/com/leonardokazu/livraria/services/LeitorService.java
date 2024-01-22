@@ -38,7 +38,7 @@ public class LeitorService {
     }
 
     public LeitorDTOResponse lerPorId(Long id){
-        var leitor = leitorRepository.findById(id).get();
+        var leitor = leitorRepository.findById(id).orElseThrow(() -> new RuntimeException("Leitor não foi encontrado"));
         return new LeitorDTOResponse(leitor.getId(), leitor.getNome(), leitor.getEmail());
     }
 

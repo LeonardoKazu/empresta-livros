@@ -1,4 +1,6 @@
 package com.leonardokazu.livraria.entities.DTOS;
 
-public record EmprestimoDTOResponse(Long id ) {
+import com.leonardokazu.livraria.entities.Emprestimo;
+
+public record EmprestimoDTOResponse(Long idLeitor, String nomeLeitor, String emailLeitor, Emprestimo emprestimo) {
 }

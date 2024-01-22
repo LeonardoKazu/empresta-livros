@@ -29,11 +29,11 @@ public class LivroService {
     }
 
     public Livro lerPorId(Long id){
-        return livroRepository.findById(id).get();
+        return livroRepository.findById(id).orElseThrow(() -> new RuntimeException("Livro não foi encontrado"));
     }
 
     public Livro atualizar(LivroDTORequest livroDTORequest, Long id){
-        Livro livro = livroRepository.findById(id).get();
+        Livro livro = livroRepository.findById(id).orElseThrow(() -> new RuntimeException("Livro não foi encontrado"));
 
         livro.setNome(livroDTORequest.nome());
         livro.setAutor(livroDTORequest.autor());
@@ -42,6 +42,7 @@ public class LivroService {
         return livroRepository.save(livro);
     }
     public void deletarPorId(Long id){
+        lerPorId(id);
         livroRepository.deleteById(id);
     }
 }
