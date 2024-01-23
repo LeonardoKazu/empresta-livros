@@ -1,6 +1,5 @@
 package com.leonardokazu.livraria.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +29,9 @@ public class Leitor {
 
     public void addEmprestimo(Emprestimo emprestimo){
         emprestimos.add(emprestimo);
+    }
+    public void removeEmprestimos(Emprestimo emprestimo){
+        emprestimos.remove(emprestimo);
     }
 
 }

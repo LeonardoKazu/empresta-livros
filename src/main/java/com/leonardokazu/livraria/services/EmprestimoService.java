@@ -29,7 +29,7 @@ public class EmprestimoService {
         List<Emprestimo> emprestimos =  emprestimoRepository.findAll();
         List<EmprestimoDTOResponse> responses = new ArrayList<>();
         for (Emprestimo x : emprestimos){
-            responses.add(new EmprestimoDTOResponse(x.getId(), x.getLeitor().getNome(), x.getLeitor().getEmail(), x));
+            responses.add(new EmprestimoDTOResponse(x.getLeitor().getId(), x.getLeitor().getNome(), x.getLeitor().getEmail(), x));
         }
         return responses;
     }
@@ -48,9 +48,10 @@ public class EmprestimoService {
         }
         Leitor leitor = leitorRepository.findById(emprestimoDTORequest.leitorId()).get();
         livro.setDisponivel(false);
-        Emprestimo emprestimo = new Emprestimo(livro, leitor);
-        leitor.addEmprestimo(emprestimo);
 
+        Emprestimo emprestimo = new Emprestimo(livro, leitor);
+
+        leitor.addEmprestimo(emprestimo);
         emprestimoRepository.save(emprestimo);
         livro.setEmprestimoId(emprestimo.getId());
         leitorRepository.save(leitor);
@@ -62,11 +63,11 @@ public class EmprestimoService {
 
         Livro livro = livroRepository.findById(emprestimo.getLivro().getId()).get();
         Leitor leitor = leitorRepository.findById(emprestimo.getLeitor().getId()).get();
-
-        livro.setDisponivel(true);
         emprestimo.devolver();
-        emprestimoRepository.deleteById(emprestimo.getId());
+        leitor.removeEmprestimos(emprestimo);
+        livro.setDisponivel(true);
         livroRepository.save(livro);
         leitorRepository.save(leitor);
+        emprestimoRepository.deleteById(emprestimo.getId());
     }
 }
