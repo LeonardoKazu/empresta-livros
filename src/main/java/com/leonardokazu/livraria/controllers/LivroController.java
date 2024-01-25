@@ -3,6 +3,7 @@ package com.leonardokazu.livraria.controllers;
 import com.leonardokazu.livraria.entities.DTOS.LivroDTORequest;
 import com.leonardokazu.livraria.entities.Livro;
 import com.leonardokazu.livraria.services.LivroService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class LivroController {
     private LivroService livroService;
 
     @PostMapping()
-    public ResponseEntity<Livro> salvar(@RequestBody LivroDTORequest livroDTORequest){
+    public ResponseEntity<Livro> salvar(@RequestBody @Valid LivroDTORequest livroDTORequest){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(livroService.salvar(livroDTORequest));
     }

@@ -3,6 +3,7 @@ package com.leonardokazu.livraria.controllers;
 import com.leonardokazu.livraria.entities.DTOS.LeitorDTORequest;
 import com.leonardokazu.livraria.entities.DTOS.LeitorDTOResponse;
 import com.leonardokazu.livraria.services.LeitorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class LeitorController {
     private LeitorService leitorService;
 
     @PostMapping
-    public ResponseEntity<LeitorDTOResponse> salvar(@RequestBody LeitorDTORequest leitorDTORequest) {
+    public ResponseEntity<LeitorDTOResponse> salvar(@RequestBody @Valid LeitorDTORequest leitorDTORequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(leitorService.salvar(leitorDTORequest));
     }
 
