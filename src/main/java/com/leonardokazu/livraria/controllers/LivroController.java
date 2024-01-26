@@ -34,7 +34,7 @@ public class LivroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Livro> atualizarPorId(@RequestBody LivroDTORequest livroDTORequest, @PathVariable Long id){
+    public ResponseEntity<Livro> atualizarPorId(@RequestBody @Valid LivroDTORequest livroDTORequest, @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(livroService.atualizar(livroDTORequest, id));
     }
 

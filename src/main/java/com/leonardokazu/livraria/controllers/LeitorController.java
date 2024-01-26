@@ -33,7 +33,7 @@ public class LeitorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LeitorDTOResponse> atualizarPorId(@RequestBody LeitorDTORequest leitorDTORequest, @PathVariable Long id){
+    public ResponseEntity<LeitorDTOResponse> atualizarPorId(@RequestBody @Valid LeitorDTORequest leitorDTORequest, @PathVariable Long id){
          return ResponseEntity.status(HttpStatus.OK).body(leitorService.atualizarPorId(leitorDTORequest, id));
     }
     @DeleteMapping("/{id}")

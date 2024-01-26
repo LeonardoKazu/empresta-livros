@@ -25,12 +25,12 @@ public class Emprestimo {
     private LocalDate dataEmprestada;
     private LocalDate dataDevolucao;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "livro_id")
     private Livro livro;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "leitor_id")
     private Leitor leitor;
 

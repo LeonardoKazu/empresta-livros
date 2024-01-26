@@ -1,16 +1,15 @@
 package com.leonardokazu.livraria.entities.DTOS;
 
-import jakarta.validation.constraints.NotBlank;
+
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+
 public record LivroDTORequest(
-        @NotNull(message = "nome não pode ser nulo!")
-        @NotBlank(message = "nome não pode ser vazio!")
+        @NotEmpty
         String nome,
-        @NotNull(message = "autor não pode ser nulo!")
-        @NotBlank(message = "autor não pode ser vazio!")
+        @NotEmpty
         String autor,
-        @NotNull(message = "totalPaginas não pode ser nulo!")
-        @NotBlank(message = "totalPaginas não pode ser vazio!")
+        @NotNull
         Integer totalPaginas) {
 }

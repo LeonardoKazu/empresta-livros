@@ -9,12 +9,14 @@ import com.leonardokazu.livraria.exceptions.ResourceNotFoundException;
 import com.leonardokazu.livraria.repositories.EmprestimoRespository;
 import com.leonardokazu.livraria.repositories.LeitorRepository;
 import com.leonardokazu.livraria.repositories.LivroRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 @Service
 public class EmprestimoService {
     @Autowired
@@ -75,6 +77,7 @@ public class EmprestimoService {
             Leitor leitor = leitorRepository.findById(emprestimo.getLeitor().getId()).get();
             emprestimo.devolver();
             leitor.removeEmprestimos(emprestimo);
+            livro.setEmprestimoId(null);
             livro.setDisponivel(true);
             livroRepository.save(livro);
             leitorRepository.save(leitor);
