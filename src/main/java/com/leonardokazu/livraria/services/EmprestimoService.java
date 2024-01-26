@@ -5,6 +5,7 @@ import com.leonardokazu.livraria.entities.DTOS.EmprestimoDTOResponse;
 import com.leonardokazu.livraria.entities.Emprestimo;
 import com.leonardokazu.livraria.entities.Leitor;
 import com.leonardokazu.livraria.entities.Livro;
+import com.leonardokazu.livraria.exceptions.ResourceBadRequestException;
 import com.leonardokazu.livraria.exceptions.ResourceNotFoundException;
 import com.leonardokazu.livraria.repositories.EmprestimoRespository;
 import com.leonardokazu.livraria.repositories.LeitorRepository;
@@ -52,7 +53,7 @@ public class EmprestimoService {
         try {
             Livro livro = livroRepository.findById(emprestimoDTORequest.livroId()).get();
             if (!livro.isDisponivel()) {
-                throw new Exception("O livro já foi emprestado");
+                throw new ResourceBadRequestException("O livro já foi emprestado");
             }
             Leitor leitor = leitorRepository.findById(emprestimoDTORequest.leitorId()).get();
             livro.setDisponivel(false);

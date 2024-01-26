@@ -36,7 +36,7 @@ public class LeitorService {
     public List<LeitorDTOResponse> lerTodos(){
         List<Leitor> leitores = leitorRepository.findAll();
         if (leitores.isEmpty()){
-            throw new ResourceNotFoundException("Nenhum registro foi encontrado!");
+            throw new ResourceNotFoundException("Nenhum leitor foi encontrado!");
         }
         List<LeitorDTOResponse> response = new ArrayList<>();
         for (Leitor x : leitores){
