@@ -31,11 +31,11 @@ public class LivroService {
     }
 
     public List<Livro> lerTodos(){
-        var livros = livroRepository.findAll();
-        if (livros.isEmpty()){
+        var listaDeLivros = livroRepository.findAll();
+        if (listaDeLivros.isEmpty()){
             throw new ResourceNotFoundException("Nenhum livro foi encontrado!");
         }
-        return livros;
+        return listaDeLivros;
     }
 
     public Livro lerPorId(Long id){
